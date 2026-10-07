@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kushalbca1.github.io/KamSeva/sitemap.xml
