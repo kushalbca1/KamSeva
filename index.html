@@ -20,6 +20,10 @@ button,input,select,textarea{font:inherit}.top{height:70px;background:#fff;borde
 @media(max-width:700px){.top{padding:0 4%}.brand small{display:none}.hero{padding-top:45px}.hero h1{font-size:38px}.hero p{font-size:17px}.steps{grid-template-columns:1fr}.job{flex-direction:column;align-items:stretch}.job .btn{width:100%}.actions .btn{width:100%;min-width:0}.search{flex-direction:column}}
 .acts{display:flex;gap:8px;flex-wrap:wrap}.btn.call{background:#fff;color:#187b43;border:2px solid var(--green)}.btn.wa{background:#25d366;color:#fff}.btn.del{background:#fff;color:#c0392b;border:2px solid #f0c4be}.banner{background:#fff4e5;color:#8a5200;padding:12px 6%;font-size:14px;text-align:center}.safe{font-size:13px;color:#7b8592;margin-top:14px;line-height:1.5}
 @media(max-width:700px){.job .acts{width:100%}.job .acts .btn{flex:1;width:auto}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px}.chip{flex:none;border:1px solid #dce1e6;background:#fff;border-radius:20px;padding:9px 14px;cursor:pointer;font-weight:700;color:#425066}.chip.active{background:var(--green);color:#fff;border-color:var(--green)}
+.pops{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding-bottom:36px}.pop{background:#fff;border:1px solid #edf0f2;border-radius:16px;padding:16px 8px;cursor:pointer;font-weight:700;color:var(--dark);font-size:14px}.pop span{display:block;font-size:30px;margin-bottom:6px}
+.tag{background:#fff4e5;color:#b86a00;border-radius:12px;padding:3px 9px;font-size:12px;font-weight:700;margin-left:6px;white-space:nowrap}.mini{display:flex;gap:16px;margin-top:6px}.mini button{background:none;border:0;color:#7b8592;font-size:13px;cursor:pointer;padding:4px 0}.btn.ok{background:#fff;color:#187b43;border:2px solid var(--green)}.chk{display:flex;gap:8px;align-items:center;font-weight:700;margin:16px 0}.chk input{width:auto}.done{color:#7b8592;font-weight:700}
+@media(max-width:700px){.pops{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -31,21 +35,26 @@ button,input,select,textarea{font:inherit}.top{height:70px;background:#fff;borde
 
 <main id="home">
 <section class="hero">
-  <div class="live">● Live · Jaipur me abhi chal raha hai</div>
+  <div class="live">● Live · Apne shehar ke chhote kaam</div>
   <h1>Aas Paas Ke <span>Chhote Kaam</span></h1>
-  <p>Jaipur ke chhote kaam aas paas ke logon se. Kaam post karo ya paas ke kaam dhoond kar madad karo.</p>
+  <p>Kaam post karo ya paas ka kaam dhoondo. Seedha Call ya WhatsApp pe baat karo, koi commission ya payment nahi.</p>
   <div class="actions">
     <button class="btn green" onclick="show('post')">Kaam Post Karo →</button>
     <button class="btn outline" onclick="show('jobs')">⌕ Kaam Dhoondo</button>
+    <button class="btn outline" onclick="showMine()">📋 Mere Kaam</button>
   </div>
+</section>
+<section class="container">
+  <h3 class="section-title">LOG SABSE ZYADA YEH DHOONDH RAHE HAIN</h3>
+  <div id="pops" class="pops"></div>
 </section>
 
 <section class="container">
   <h3 class="section-title">KAISE CHALEGA</h3>
   <div class="steps">
-    <div class="card"><div class="emoji">📝</div><h2>1. Kaam Post Karo</h2><p>Kaam kya hai, kitne ka, kahan aur kitni der ka — batao. Area aur pincode daalo.</p></div>
-    <div class="card"><div class="emoji">🤝</div><h2>2. Kaam Wala Apply Karega</h2><p>Paas ka kaam wala aapke kaam ko dekh kar apply karega. Aapko notification milega.</p></div>
-    <div class="card"><div class="emoji">✅</div><h2>3. Accept & Kaam Madad</h2><p>Accept karo, contact details share karo, kaam ho gaya to review do.</p></div>
+    <div class="card"><div class="emoji">📝</div><h2>1. Kaam Post Karo</h2><p>Kaam ka naam, shehar aur area batao, aur apna mobile number daalo.</p></div>
+    <div class="card"><div class="emoji">🤝</div><h2>2. Paas Ka Insaan Contact Karega</h2><p>Jo kaam kar sakta hai wo aapko seedha Call ya WhatsApp karega.</p></div>
+    <div class="card"><div class="emoji">✅</div><h2>3. Baat Karke Deal Karo</h2><p>Kaam aur rate aapas me tay karo. Kaam ho jaye to "Kaam ho gaya" dabao.</p></div>
   </div>
 </section>
 </main>
@@ -72,22 +81,30 @@ button,input,select,textarea{font:inherit}.top{height:70px;background:#fff;borde
 <div class="panel">
 <h2>📝 Kaam Post Karo</h2>
 <p style="color:#697484">Apne aas-paas ke kisi insaan ko kaam ke liye bulao.</p>
-<div class="field"><label>Kaam ka naam</label><input id="jobTitle" placeholder="Jaise: Car washing"></div>
-<div class="field"><label>Kaam ki details</label><textarea id="jobDesc" placeholder="Kaam ke baare me likhein..."></textarea></div>
-<div class="field"><label>Kitne paise?</label><input id="jobPrice" type="number" placeholder="Jaise: 200"></div>
+<div class="field"><label>Kaam ki category</label><select id="jobCat"></select></div>
+<div class="field"><label>Kaam ka naam</label><input id="jobTitle" maxlength="80" placeholder="Jaise: 2 BHK ghar ki safai"></div>
+<div class="field"><label>Kaam ki details</label><textarea id="jobDesc" maxlength="500" placeholder="Kab, kitni der aur kya karna hai..."></textarea></div>
 <div class="field"><label>Aapka Mobile Number</label><input id="jobPhone" type="tel" inputmode="numeric" maxlength="10" placeholder="10 digit number (call / WhatsApp ke liye)"></div>
-<div class="field"><label>Area</label><input id="jobArea" placeholder="Jaipur, area name"></div>
-<div class="field"><label>Pincode</label><input id="jobPin" placeholder="3020xx"></div>
+<div class="field"><label>Shehar</label><input id="jobCity" maxlength="40" placeholder="Jaise: Jaipur, Delhi, Alwar"></div>
+<div class="field"><label>Area / Colony</label><input id="jobArea" maxlength="60" placeholder="Jaise: Malviya Nagar"></div>
+<div class="field"><label>Pincode (optional)</label><input id="jobPin" inputmode="numeric" maxlength="6" placeholder="Jaise: 302001"></div>
+<label class="chk"><input type="checkbox" id="jobUrgent"> ⚡ Aaj hi chahiye (urgent)</label>
 <button class="btn green" style="width:100%" onclick="postJob()">Kaam Post Karo</button>
-<p class="safe">🔒 Aapka number sirf login kiye hue users ko call/WhatsApp ke liye dikhega, public list me nahi.</p>
+<p class="safe">🔒 Aapka number sirf login kiye hue users ko call/WhatsApp ke liye dikhega, public list me nahi. Rate aur payment aap kaam wale se seedha tay karein.</p>
 </div></section>
 
 <section id="jobs" class="container hidden">
 <div class="panel" style="max-width:900px">
 <h2>🔎 Kaam Dhoondo</h2>
-<div class="search"><input id="search" placeholder="Kaam, area ya pincode search karo..." oninput="renderJobs()"><button class="btn green" onclick="renderJobs()">Search</button></div>
+<div class="search"><input id="search" placeholder="Kaam, shehar, area ya pincode search karo..." oninput="renderJobs()"><button class="btn green" onclick="renderJobs()">Search</button></div>
+<div id="chips" class="chips"></div>
 <div id="jobList"></div>
-<p class="safe">KamSeva sirf kaam wale aur kaam dene wale ko jodta hai. Paise, kaam aur safety ka faisla aap dono khud karein. Anjaan jagah akele na jayein.</p>
+<p class="safe">KamSeva sirf kaam wale aur kaam dene wale ko jodta hai. Rate, kaam aur safety ka faisla aap dono khud karein. App me koi payment nahi hota. Anjaan jagah akele na jayein. Galat post dikhe to 🚩 Report karein.</p>
+</div></section>
+<section id="mine" class="container hidden">
+<div class="panel" style="max-width:900px">
+<h2>📋 Mere Kaam</h2>
+<div id="mineList"></div>
 </div></section>
 
 <footer class="footer">KamSeva · Aas Paas Ke Chhote Kaam</footer>
@@ -95,23 +112,26 @@ button,input,select,textarea{font:inherit}.top{height:70px;background:#fff;borde
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,collection,doc,getDoc,getDocs,writeBatch,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,updateDoc,writeBatch,query,where,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ====== YAHAN APNA FIREBASE CONFIG PASTE KARO ====== */
 const firebaseConfig={apiKey:"AIzaSyCxlo4wqhbSOQDup3O_hsuoTaK6e9qLPqo",authDomain:"kamseva-6035e.firebaseapp.com",projectId:"kamseva-6035e",appId:"1:1026057017402:web:e4720ea6e0ae4045ea3d03"};
-/* =================================================== */
-
-const ready=!firebaseConfig.apiKey.startsWith("PASTE");
-let auth,db,user=null,jobs=[];
-if(ready){const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}else document.getElementById('cfgWarn').classList.remove('hidden');
 
 const $=id=>document.getElementById(id);
 const esc=x=>String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-const need=()=>{if(!ready){alert('Pehle Firebase config daalo (setup guide dekho).');return false}return true};
+const CATS=[['safai','🧹','Ghar ki safai'],['electrician','🔧','Electrician / Plumber'],['delivery','🚚','Delivery / Saman shift'],['tuition','📚','Tuition / Padhai'],['cook','🍳','Cook / Khana'],['driver','🚗','Driver / Car wash'],['painter','🎨','Painter / Mistri'],['repair','💻','Mobile / Laptop repair'],['ac','❄️','AC / Fridge repair'],['care','👶','Bachche / Bujurg ki dekhbhal'],['other','🛠️','Anya kaam']];
+const cat=k=>CATS.find(c=>c[0]===k)||CATS[CATS.length-1];
+const ready=!firebaseConfig.apiKey.startsWith("PASTE");
+let auth,db,user=null,jobs=[],mine=[],curCat='all';
+if(ready){const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}else $('cfgWarn').classList.remove('hidden');
+const need=()=>{if(!ready){alert('Pehle Firebase config daalo.');return false}return true};
+const vis=id=>!$(id).classList.contains('hidden');
 
-function show(id){['home','auth','post','jobs'].forEach(x=>$(x).classList.add('hidden'));$(id).classList.remove('hidden');if(id==='jobs')loadJobs();scrollTo({top:0,behavior:'smooth'})}
+$('jobCat').innerHTML=CATS.map(c=>`<option value="${c[0]}">${c[1]} ${c[2]}</option>`).join('');
+$('pops').innerHTML=CATS.slice(0,10).map(c=>`<button class="pop" onclick="pickCat('${c[0]}')"><span>${c[1]}</span>${c[2]}</button>`).join('');
+
+function show(id){['home','auth','post','jobs','mine'].forEach(x=>$(x).classList.add('hidden'));$(id).classList.remove('hidden');if(id==='jobs')loadJobs();if(id==='mine')loadMine();scrollTo({top:0,behavior:'smooth'})}
 function tab(w){$('signup').classList.toggle('hidden',w!=='signup');$('login').classList.toggle('hidden',w!=='login');$('signupTab').classList.toggle('active',w==='signup');$('loginTab').classList.toggle('active',w==='login')}
-function errMsg(e){const m={'auth/email-already-in-use':'Yeh email pehle se registered hai, Login karo.','auth/invalid-email':'Email sahi nahi hai.','auth/weak-password':'Password kam se kam 6 character ka rakho.','auth/invalid-credential':'Email ya password galat hai.','auth/popup-closed-by-user':'Login window band ho gayi.','auth/unauthorized-domain':'Is website ka domain Firebase me authorize nahi hai.','auth/network-request-failed':'Internet check karo.'};return m[e.code]||('Dikkat aayi: '+(e.message||e))}
+function errMsg(e){const m={'auth/email-already-in-use':'Yeh email pehle se registered hai, Login karo.','auth/invalid-email':'Email sahi nahi hai.','auth/weak-password':'Password kam se kam 6 character ka rakho.','auth/invalid-credential':'Email ya password galat hai.','auth/popup-closed-by-user':'Login window band ho gayi.','auth/unauthorized-domain':'Is website ka domain Firebase me authorize nahi hai.','auth/network-request-failed':'Internet check karo.','permission-denied':'Permission nahi mili. Firestore Rules me naya text paste karke Publish karo.'};return m[e.code]||('Dikkat aayi: '+(e.message||e))}
 
 async function signup(){if(!need())return;const n=$('name').value.trim(),e=$('email').value.trim(),p=$('pass').value;if(!n||!e||p.length<6)return alert('Naam, email aur 6+ character password bharein.');
  try{const c=await createUserWithEmailAndPassword(auth,e,p);await updateProfile(c.user,{displayName:n});user=auth.currentUser;updateBtn();alert('Account ban gaya!');show('home')}catch(x){alert(errMsg(x))}}
@@ -120,37 +140,51 @@ async function login(){if(!need())return;const e=$('lemail').value.trim(),p=$('l
 async function googleLogin(){if(!need())return;try{await signInWithPopup(auth,new GoogleAuthProvider());show('home')}catch(x){alert(errMsg(x))}}
 async function authBtn(){if(user){if(confirm('Logout karein?'))await signOut(auth)}else show('auth')}
 function updateBtn(){$('authBtn').textContent=user?('👤 '+(user.displayName||'Account').split(' ')[0]+' · Logout'):'Login / Sign Up'}
-if(ready)onAuthStateChanged(auth,u=>{user=u;updateBtn();if(!$('jobs').classList.contains('hidden'))renderJobs()});
+if(ready)onAuthStateChanged(auth,u=>{user=u;updateBtn();if(vis('jobs'))renderJobs();if(vis('mine')){u?loadMine():show('home')}});
 
-function ago(ts){if(!ts)return'abhi';const m=Math.floor((Date.now()-ts.toMillis())/60000);if(m<1)return'abhi';if(m<60)return m+' minute pehle';const h=Math.floor(m/60);if(h<24)return h+' ghante pehle';return Math.floor(h/24)+' din pehle'}
-function icon(t){t=t.toLowerCase();if(/car|gaadi|gadi|bike|wash/.test(t))return'🚗';if(/clean|safai|jhadu|jhaadu|room/.test(t))return'🧹';if(/grocery|saman|sabzi|shop|pickup|deliver/.test(t))return'🛒';if(/cook|khana|kitchen/.test(t))return'🍳';if(/paint|rang/.test(t))return'🎨';if(/teach|tuition|padh/.test(t))return'📚';return'🛠️'}
+function ago(ts){if(!ts||!ts.toMillis)return'abhi';const m=Math.floor((Date.now()-ts.toMillis())/60000);if(m<1)return'abhi';if(m<60)return m+' minute pehle';const h=Math.floor(m/60);if(h<24)return h+' ghante pehle';return Math.floor(h/24)+' din pehle'}
+const place=j=>[j.city,j.area,j.pin].filter(Boolean).map(esc).join(' · ');
 
+function pickCat(k){curCat=k;show('jobs')}
 async function loadJobs(){if(!ready){jobs=[];return renderJobs()}
  try{const s=await getDocs(query(collection(db,'jobs'),orderBy('createdAt','desc'),limit(100)));jobs=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){$('jobList').innerHTML='<p style="text-align:center;color:#c0392b">Jobs load nahi hui: '+esc(e.message)+'</p>';return}
  renderJobs()}
 function renderJobs(){const q=($('search')?.value||'').toLowerCase().trim();
- const list=jobs.filter(j=>(j.title+' '+j.area+' '+(j.pin||'')).toLowerCase().includes(q));
- $('jobList').innerHTML=list.map(j=>{const mine=user&&user.uid===j.ownerUid;
-  const acts=mine?`<button class="btn del" onclick="delJob('${j.id}')">🗑 Hatao</button>`:`<button class="btn call" onclick="contact('${j.id}','call')">📞 Call</button><button class="btn wa" onclick="contact('${j.id}','wa')">💬 WhatsApp</button>`;
-  return `<div class="job"><div><h3>${icon(j.title)} ${esc(j.title)}</h3><div class="meta">${ago(j.createdAt)} · ${esc(j.area)} · ${esc(j.pin||'')}</div><p>${esc(j.desc||'')}</p><div class="price">Rs ${esc(j.price)}</div></div><div class="acts">${acts}</div></div>`}).join('')||'<p style="text-align:center;color:#718096">Koi kaam nahi mila.</p>'}
+ $('chips').innerHTML=[['all','','Sab'],...CATS].map(c=>`<button class="chip ${curCat===c[0]?'active':''}" onclick="pickCat('${c[0]}')">${c[1]} ${c[2]}</button>`).join('');
+ const list=jobs.filter(j=>j.status!=='done'&&(curCat==='all'||(j.category||'other')===curCat)&&[j.title,j.city,j.area,j.pin,cat(j.category)[2]].join(' ').toLowerCase().includes(q));
+ list.sort((a,b)=>(b.urgent?1:0)-(a.urgent?1:0));
+ $('jobList').innerHTML=list.map(j=>{const mineJob=user&&user.uid===j.ownerUid;
+  const acts=mineJob?`<span class="done">Aapka kaam</span>`:`<button class="btn call" onclick="contact('${j.id}','call')">📞 Call</button><button class="btn wa" onclick="contact('${j.id}','wa')">💬 WhatsApp</button>`;
+  return `<div class="job"><div><h3>${cat(j.category)[1]} ${esc(j.title)}${j.urgent?'<span class="tag">⚡ Aaj hi chahiye</span>':''}</h3><div class="meta">${ago(j.createdAt)} · ${place(j)}</div><p>${esc(j.desc||'')}</p><div class="mini"><button onclick="shareJob('${j.id}')">↗ Share</button>${mineJob?'':`<button onclick="reportJob('${j.id}')">🚩 Report</button>`}</div></div><div class="acts">${acts}</div></div>`}).join('')||'<p style="text-align:center;color:#718096">Koi kaam nahi mila.</p>'}
 
 async function contact(id,type){if(!user){alert('Contact dekhne ke liye pehle Login karo.');return show('auth')}
  try{const s=await getDoc(doc(db,'contacts',id));if(!s.exists())return alert('Contact nahi mila.');const ph=s.data().phone,j=jobs.find(x=>x.id===id);
   if(type==='call')location.href='tel:+91'+ph;
   else location.href='https://wa.me/91'+ph+'?text='+encodeURIComponent('Namaste, KamSeva pe aapka "'+(j?j.title:'kaam')+'" wala kaam dekha. Main madad kar sakta/sakti hoon.')}
  catch(e){alert(errMsg(e))}}
+function shareJob(id){const j=jobs.find(x=>x.id===id);if(!j)return;location.href='https://wa.me/?text='+encodeURIComponent('Kaam chahiye? "'+j.title+'" - '+[j.city,j.area].filter(Boolean).join(', ')+'\nKamSeva pe dekho: '+location.origin+location.pathname)}
+async function reportJob(id){if(!user){alert('Report karne ke liye pehle Login karo.');return show('auth')}
+ const r=prompt('Report ki wajah likho (jaise: fraud, galat number, bura vyavhar)');if(!r||!r.trim())return;
+ try{await setDoc(doc(db,'reports',id+'_'+user.uid),{jobId:id,reporter:user.uid,reason:r.trim().slice(0,200),createdAt:serverTimestamp()});alert('Report mil gayi. Shukriya!')}catch(e){alert(e.code==='permission-denied'?'Aap is kaam ko pehle hi report kar chuke hain, ya rules update nahi hue.':errMsg(e))}}
 
 async function postJob(){if(!need())return;if(!user){alert('Kaam post karne ke liye pehle Login karo.');return show('auth')}
- const title=$('jobTitle').value.trim(),price=$('jobPrice').value,area=$('jobArea').value.trim(),phone=$('jobPhone').value.trim();
- if(!title||!price||!area)return alert('Kaam, price aur area zaroor bharein.');
+ const title=$('jobTitle').value.trim(),city=$('jobCity').value.trim(),area=$('jobArea').value.trim(),phone=$('jobPhone').value.trim();
+ if(!title||!city||!area)return alert('Kaam ka naam, shehar aur area zaroor bharein.');
  if(!/^[6-9]\d{9}$/.test(phone))return alert('Sahi 10 digit mobile number daalo.');
  try{const ref=doc(collection(db,'jobs')),b=writeBatch(db);
-  b.set(ref,{title:title.slice(0,80),desc:$('jobDesc').value.trim().slice(0,500),price:Number(price),area:area.slice(0,60),pin:$('jobPin').value.trim().slice(0,6),ownerUid:user.uid,createdAt:serverTimestamp()});
+  b.set(ref,{title:title.slice(0,80),category:$('jobCat').value,desc:$('jobDesc').value.trim().slice(0,500),city:city.slice(0,40),area:area.slice(0,60),pin:$('jobPin').value.trim().slice(0,6),urgent:$('jobUrgent').checked,status:'open',ownerUid:user.uid,createdAt:serverTimestamp()});
   b.set(doc(db,'contacts',ref.id),{phone,ownerUid:user.uid});
-  await b.commit();['jobTitle','jobDesc','jobPrice','jobPhone','jobArea','jobPin'].forEach(i=>$(i).value='');alert('Kaam post ho gaya!');show('jobs')}catch(e){alert(errMsg(e))}}
-async function delJob(id){if(!confirm('Yeh kaam hata dein?'))return;try{const b=writeBatch(db);b.delete(doc(db,'jobs',id));b.delete(doc(db,'contacts',id));await b.commit();loadJobs()}catch(e){alert(errMsg(e))}}
+  await b.commit();['jobTitle','jobDesc','jobPhone','jobCity','jobArea','jobPin'].forEach(i=>$(i).value='');$('jobUrgent').checked=false;alert('Kaam post ho gaya!');curCat='all';show('jobs')}catch(e){alert(errMsg(e))}}
 
-Object.assign(window,{show,tab,signup,login,googleLogin,authBtn,renderJobs,contact,postJob,delJob});
+async function loadMine(){if(!ready||!user){mine=[];return renderMine()}
+ try{const s=await getDocs(query(collection(db,'jobs'),where('ownerUid','==',user.uid)));mine=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0))}catch(e){$('mineList').innerHTML='<p style="color:#c0392b">Load nahi hua: '+esc(e.message)+'</p>';return}
+ renderMine()}
+function renderMine(){$('mineList').innerHTML=mine.map(j=>`<div class="job"><div><h3>${cat(j.category)[1]} ${esc(j.title)}${j.urgent?'<span class="tag">⚡ Urgent</span>':''}</h3><div class="meta">${ago(j.createdAt)} · ${place(j)}</div><p>${esc(j.desc||'')}</p><div class="meta">${j.status==='done'?'✅ Kaam ho gaya':'🟢 Abhi khula hai'}</div></div><div class="acts">${j.status==='done'?'':`<button class="btn ok" onclick="markDone('${j.id}')">✅ Kaam ho gaya</button>`}<button class="btn del" onclick="delJob('${j.id}')">🗑 Hatao</button></div></div>`).join('')||'<p style="text-align:center;color:#718096">Aapne abhi koi kaam post nahi kiya.</p>'}
+async function markDone(id){try{await updateDoc(doc(db,'jobs',id),{status:'done'});loadMine()}catch(e){alert(errMsg(e))}}
+async function delJob(id){if(!confirm('Yeh kaam hata dein?'))return;try{const b=writeBatch(db);b.delete(doc(db,'jobs',id));b.delete(doc(db,'contacts',id));await b.commit();loadMine()}catch(e){alert(errMsg(e))}}
+function showMine(){if(!user){alert('Apne kaam dekhne ke liye pehle Login karo.');return show('auth')}show('mine')}
+
+Object.assign(window,{show,tab,signup,login,googleLogin,authBtn,renderJobs,contact,shareJob,reportJob,postJob,markDone,delJob,pickCat,showMine});
 </script>
 </body>
 </html>
